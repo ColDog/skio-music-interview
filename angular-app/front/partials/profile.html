@@ -1,0 +1,46 @@
+<header class="header">
+    <h1 class="main-header">{{profile.displayName}}</h1>
+</header>
+
+<div class="content">
+    <tabset>
+        <tab active="tab.active" heading="About">
+            <h4>About Me</h4>
+            <p ng-model="profile.description">{{profile.description}}</p>
+            <p ng-model="profile.tags">{{profile.tags}}</p>
+        </tab>
+        <tab heading="Tracks">
+            <div class="track panel callout radius" ng-repeat="track in profile.track_set">
+                <h4>{{track.name}}</h4>
+                <p>{{track.description}}</p>
+            </div>
+        </tab>
+        <tab heading="Followers">
+            get from socket io
+        </tab>
+        <tab heading="Edit">
+            <form id="editProfile" ng-submit="editUser()">
+                <label>User Name</label>
+                <input type="text" name="username" ng-model="profile.username">
+                <label>Display Name</label>
+                <input type="text" name="displayName" ng-model="profile.displayName">
+                <label>Description</label>
+                <textarea name="description" ng-model="profile.description"></textarea>
+                <label>Tag Line</label>
+                <input type="text" name="tagLine" ng-model="profile.tagLine">
+                <label>Email</label>
+                <input type="text" name="displayName" ng-model="profile.email">
+                <input type="submit" value="Submit" class="button">
+            </form>
+        </tab>
+        <tab heading="New Track">
+            <form id="newTrack" ng-submit="submitNewTrack()">
+                <label>Name</label>
+                <input type="text" name="name" ng-model="newTrack.name">
+                <label>Description</label>
+                <textarea name="description" ng-model="newTrack.description"></textarea>
+                <input type="submit" value="Submit" class="button">
+            </form>
+        </tab>
+    </tabset>
+</div>

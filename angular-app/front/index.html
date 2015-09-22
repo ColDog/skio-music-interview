@@ -1,0 +1,74 @@
+<!doctype html>
+<html ng-app="skio">
+<head>
+    <title>Hello AngularJS</title>
+    <link   rel="stylesheet" href="/vendor/foundation/css/normalize.min.css" type="text/css">
+    <link   rel="stylesheet" href="/vendor/foundation/css/foundation.min.css" type="text/css">
+    <link   rel="stylesheet" href="/assets/app.css" type="text/css">
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="/vendor/jquery/dist/jquery.js"></script>
+    <script src="/vendor/angular/angular.js"></script>
+    <script src="/vendor/angular-mocks/angular-mocks.js"></script>
+    <script src="/vendor/angular-route/angular-route.js"></script>
+    <script src="/vendor/angular-resource/angular-resource.js"></script>
+    <script src="/vendor/angular-foundation/mm-foundation-tpls.min.js"></script>
+    <script src="/vendor/foundation/js/foundation.min.js"></script>
+
+    <script src="/assets/app.js"></script>
+    <script src="/assets/controllers.js"></script>
+    <script> var socket = io('http://localhost:4000') </script>
+</head>
+
+<body ng-controller="ApplicationController">
+    <header>
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#">My Site</a></h1>
+                </li>
+                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    <div ng-if="logged_in()">
+                        <li class="has-dropdown">
+                            <a ng-href="/#/profile/{{current_user().user_id}}">{{current_user().displayName}}</a>
+                            <ul class="dropdown">
+                                <li><a href="">New Track</a></li>
+                                <li><a href="">My Tracks</a></li>
+                                <li><a href="">My Deals</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                    <div ng-if="!current_user()">
+                        <li><a href="/#/login">Login</a></li>
+                    </div>
+                </ul>
+
+                <!-- Left Nav Section -->
+                <ul class="left">
+                    <li><a href="/#/feed">Feed</a></li>
+                    <li><a href="/#/people">People</a></li>
+                </ul>
+            </section>
+        </nav>
+    </header>
+    <main>
+        <div ng-view>
+
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+    <script>
+        socket.on('connect', function(){
+            console.log('socket connected')
+        })
+    </script>
+</body>
+</html>

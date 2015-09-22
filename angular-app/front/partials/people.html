@@ -1,0 +1,11 @@
+<section id="articles" class="content">
+    <h3>Search For {{ query }}</h3>
+    <input ng-model="query" >
+    <div class="track panel callout radius" ng-repeat="user in users | filter: query">
+        <h2>{{ user.displayName }}</h2>
+        <button ng-click="follow(user.id)" class="button small">FOLLOW</button>
+        <p>{{ user.username }}</p>
+        <p>{{ user.tags }}</p>
+        <p>{{ user.description }}</p>
+    </div>
+</section>

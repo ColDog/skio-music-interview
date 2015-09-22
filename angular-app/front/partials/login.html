@@ -1,0 +1,27 @@
+<div class="content" ng-controller="LoginController">
+    <form ng-submit="login()">
+        <fieldset>
+            <legend>Login</legend>
+            <label>Email</label>
+            <input name="email" type="text" ng-model="loginForm.email">
+            <label>Password</label>
+            <input name="password" type="password" ng-model="loginForm.password">
+            <input type="submit" value="LOG IN" class="button">
+        </fieldset>
+    </form>
+
+    <form ng-submit="newUser()">
+        <fieldset>
+            <legend>Sign Up</legend>
+            <label>Email</label>
+            <input name="email" type="text" ng-model="newForm.email">
+            <label>Username</label>
+            <input name="username" type="text" ng-model="newForm.username">
+            <label>Name</label>
+            <input name="displayName" type="text" ng-model="newForm.displayName">
+            <label>Password</label>
+            <input name="password" type="password" ng-model="newForm.password">
+            <input type="submit" value="SIGN UP" class="button">
+        </fieldset>
+    </form>
+</div>
