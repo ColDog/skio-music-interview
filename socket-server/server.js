@@ -14,16 +14,17 @@ function add_feed(user_id, entry_id) { redis.lpush('feed:'+user_id, entry_id) }
 function add_like(user_id, track_id) { redis.rpush('likes:'+user_id, track_id) }
 
 function get_feed(user_id, cb) {
-    var multi = redis.multi();
     redis.lrange('feed:'+user_id, 0, -1, function(err, feed) {
         if (feed) {
-            feed.forEach(function(entry_id){
-                multi.hgetall('entry:'+entry_id, redis.print)
+            console.log('feed', feed)
+            cmds = []
+            feed.forEach(function(entry_id){ cmds.push(['hgetall', entry_id]) })
+            console.log('cmds', cmds)
+            redis.multi(cmds).exec(function(err, entries){
+                console.log('feed', entries)
+                cb( entries )
             })
         }
-    });
-    multi.exec(function (err, entries) {
-        cb( entries )
     });
 }
 
@@ -37,7 +38,8 @@ listener.on('message', function(channel, message){
         console.log('got new entry')
         var sender = message.split(':')[3]
         var entry_id = message
-        redis.get('followers:'+sender, function(list){
+        redis.lrange('followers:'+sender, 0, -1, function(err, list){
+            if (err) { throw err }
             if (list) {
                 list.forEach(function(user_id){
                     add_feed(user_id, entry_id)

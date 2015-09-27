@@ -1,10 +1,4 @@
-<h1>Home of the Blog</h1>
-<section id="articles" ng-controller="FeedController">
-    <h3>Search For {{ query }}</h3>
-    <input ng-model="query" >
-    <article ng-repeat="entry in feed | filter: query">
-        <h2>{{ entry.title }}</h2>
-        <p>{{ entry.tags }}</p>
-        <p>{{ entry.content }}</p>
-    </article>
-</section>
+<input ng-model="query" placeholder="search">
+<article class="track panel callout radius" ng-repeat="entry in feed | filter: query">
+    <p>{{ entry.content }}</p>
+</article>

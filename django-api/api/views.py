@@ -58,7 +58,7 @@ class ApiAuthenticationController(Controller):
             encoded_hash = user.password.encode('utf-8')
             if bcrypt.hashpw(encoded_pass, encoded_hash):
                 token = jwt.encode({'user_id': user.id}, SECRET_KEY)
-                message = {'token': token, 'success': True, 'message': 'Authentication successful.', 'user': user._data.to_dict}
+                message = {'token': token, 'success': True, 'message': 'Authentication successful.', 'user': user._data.to_dict()}
                 return message
             else:
                 raise AuthenticationFailed('Authentication failed.')

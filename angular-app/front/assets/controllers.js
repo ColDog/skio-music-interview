@@ -4,25 +4,24 @@ controllers.controller('ApplicationController', ['$scope', '$resource', '$rootSc
     function ($scope, $resource, $rootScope, $location) {
         $rootScope.current_user = function(){ return { displayName: sessionStorage.displayName, username: sessionStorage.username, user_id: sessionStorage.user_id } };
         $rootScope.logged_in = function() { return !!sessionStorage.getItem('token') };
+        if (!$rootScope.logged_in()) { $location.path('/login') }
+        $rootScope.$on('$locationChangeStart', function(){ if (!$rootScope.logged_in()) { $location.path('/login') } } );
     }]);
 
 controllers.controller('FeedController', ['$scope', '$resource', '$rootScope', '$location',
     function ($scope, $resource, $rootScope, $location) {
-        $rootScope.$on('$locationChangeStart', function(){ if (!$rootScope.logged_in()) { $location.path('/login') } } );
-        $scope.feed = [];
         socket.on('connect', function(){
             socket.emit('get_feed', $rootScope.current_user().user_id)
         });
         socket.on('send_feed', function(feed){
             $scope.feed = feed
+            $scope.$apply();
+            console.log('got feed', feed)
         })
     }]);
 
 controllers.controller('PeopleController', ['$scope', '$resource', '$rootScope', '$location',
     function ($scope, $resource, $rootScope, $location) {
-        $rootScope.$on('$locationChangeStart', function(){ if (!$rootScope.current_user()) { $location.path('/login') } } );
-        //$scope.current_user = current_user;
-        //$rootScope.$on('$locationChangeStart', function(){ if (!current_user()) { $location.path('/login') } } );
         var User = $resource(H.api+'/users/:id', {id: '@id'})
         $scope.users = User.query()
         $scope.follow = function(id) {
@@ -33,7 +32,7 @@ controllers.controller('PeopleController', ['$scope', '$resource', '$rootScope',
 controllers.controller('ProfileController', ['$scope', '$resource', '$routeParams', '$rootScope', '$location', '$http',
     function ($scope, $resource, $routeParams, $rootScope, $location, $http) {
         $rootScope.$on('$locationChangeStart', function(){
-            if (!current_user() || !Session.user_id == $routeParams.user_id ) {
+            if (!$rootScope.current_user().user_id == $routeParams.user_id ) {
                 $location.path('/login') }
             }
         )
