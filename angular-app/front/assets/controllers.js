@@ -44,6 +44,14 @@ controllers.controller('ProfileController', ['$scope', '$resource', '$routeParam
         $scope.submitNewTrack = function() {
             $http.post(H.api+'/users/' + $rootScope.current_user().user_id + '/tracks', $scope.newTrack)
         }
+        socket.on('connect', function(){
+            socket.emit('get_followers', $rootScope.current_user().user_id)
+        });
+        socket.on('send_followers', function(feed){
+            $scope.followers = feed
+            $scope.$apply();
+            console.log('got feed', feed)
+        })
     }]);
 
 controllers.controller('LoginController', ['$scope', '$http', '$location', '$rootScope', '$location',

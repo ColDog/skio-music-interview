@@ -25,7 +25,7 @@
         <nav class="top-bar" data-topbar role="navigation">
             <ul class="title-area">
                 <li class="name">
-                    <h1><a href="#">My Site</a></h1>
+                    <h1><a href="#/">A Music App</a></h1>
                 </li>
                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
                 <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
@@ -34,15 +34,8 @@
             <section class="top-bar-section">
                 <!-- Right Nav Section -->
                 <ul class="right">
-                    <div ng-if="logged_in()">
-                        <li class="has-dropdown">
-                            <a ng-href="/#/profile/{{current_user().user_id}}">{{current_user().displayName}}</a>
-                            <ul class="dropdown">
-                                <li><a href="">New Track</a></li>
-                                <li><a href="">My Tracks</a></li>
-                                <li><a href="">My Deals</a></li>
-                            </ul>
-                        </li>
+                    <div>
+                      <li><a ng-href="/#/profile/{{current_user().user_id}}">{{current_user().displayName}}</a></li>
                     </div>
                     <div ng-if="!current_user()">
                         <li><a href="/#/login">Login</a></li>
