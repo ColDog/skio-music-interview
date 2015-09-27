@@ -15,17 +15,20 @@ def send_redis(sender, **kwargs):
     name = sender._meta.model_name
     if name == 'collaborator':
         user_id = instance.track.user_id
-        content = 'New collaborator, %s added to track %s' % (instance.user.name, instance.track.name)
+        content = instance.track.description
+        title = 'New collaborator, %s added to track %s' % (instance.user.name, instance.track.name)
     elif name == 'track':
         user_id = instance.user_id
         content = instance.description
+        title = instance.user.name + 'added a track'
     elif name == 'comment':
         user_id = instance.track.user_id
         content = instance.content
+        title = instance.user.name + 'commented on'
     else:
         return None
 
     key = '%s:%s:%s:%s' % ('entry', name, str(instance.id), str(user_id))
-    msg = {'type': name, 'user_id': user_id, 'id': instance.id, 'content': content}
+    msg = {'type': name, 'user_id': user_id, 'id': instance.id, 'content': content, 'title': title}
     Redis.hmset(key, msg)
     Redis.publish('new-entry', key)

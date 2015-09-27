@@ -1,4 +1,5 @@
 <input ng-model="query" placeholder="search">
 <article class="track panel callout radius" ng-repeat="entry in feed | filter: query">
+    <h5>{{ entry.title }}</h5>
     <p>{{ entry.content }}</p>
 </article>
